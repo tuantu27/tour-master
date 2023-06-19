@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments_admin :: html_head">
+
+</head>
+<body>
+<div id="container-wrapper">
+    <div id="dashboard" class="dashboard-container">
+        <div th:replace="fragments_admin :: nav_head"></div>
+        <div th:replace="fragments_admin :: menu"></div>
+        <div class="db-info-wrap db-package-wrap">
+            <div class="dashboard-box table-opp-color-box">
+                <h4>Danh Sách Địa Điểm</h4>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Số Thứ Tự</th>
+                            <th>Tên địa điểm</th>
+                            <th>Vùng miền </th>
+                            <th>Hành động</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="des : ${lstTypeTour}">
+                            <td>
+                                <span class="package-name" style="font-size: 14px" th:text="${des.typeTourId}" ></span>
+                            </td>
+                            <td name="nameDes" style="font-size: 14px">
+                                <input th:id="destinaton+${des.typeTourId}"  th:value="${des.nameTypeTour}" class="form-control" type="text">
+                            </td>
+                            <td>
+                                <select name="region" th:id="region+${des.typeTourId}" >
+                                    <option value="1" th:selected="(${des.region} =='1')">Du lịch Miền Bắc</option>
+                                    <option value="2" th:selected="(${des.region} =='2')" >Du lịch Miền Trung</option>
+                                    <option value="3"  th:selected="(${des.region} =='3')">Du lịch Miền Nam</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <span class="badge badge-success" th:onclick="'updateDes(\'' + ${des.typeTourId} + '\');'"><i class="far fa-edit " ></i></span>
+                                <span class="badge badge-danger" th:onclick="'deleteDes(\'' + ${des.typeTourId} + '\');'"><i class="far fa-trash-alt " ></i></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- pagination html -->
+            <div class="pagination-wrap">
+                <nav class="pagination-inner">
+                    <ul class="pagination disabled">
+                        <li class="page-item"><span class="page-link"><i class="fas fa-chevron-left"></i></span></li>
+                        <li class="page-item"><a href="#" class="page-link active">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/admin_style/js/jquery-3.2.1.min.js}"></script>
+<script src="../../../../cdn.jsdelivr.net/npm/popper.js%401.16.0/dist/umd/popper.min.js"></script>
+<script th:src="@{/admin_style/js/bootstrap.min.js}"></script>
+<script th:src="@{/admin_style/js/canvasjs.min.js}"></script>
+<script th:src="@{/admin_style/js/chart.js}"></script>
+<script th:src="@{/admin_style/js/counterup.min.js}"></script>
+<script th:src="@{/admin_style/js/jquery.slicknav.js}"></script>
+<script th:src="@{/admin_style/js/dashboard-custom.js}"></script>
+<script>
+
+    function updateDes(id){
+        var name = document.getElementById("destinaton"+id).value;
+        var region = document.getElementById("region"+id);
+        var value = region.options[region.selectedIndex].value;
+        console.log(name);
+        console.log(value);
+        window.location.href= '/admin/update_destination/'+id+'/'+name+'/'+value;
+
+
+    }
+    function deleteDes(id){
+
+        window.location.href= '/admin/delete_des/'+id;
+
+
+    }
+</script>
+</body>
+</html>

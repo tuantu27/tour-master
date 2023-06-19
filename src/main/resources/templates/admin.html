@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments_admin :: html_head">
+
+</head>
+<body>
+<div id="container-wrapper">
+    <div id="dashboard" class="dashboard-container">
+        <div th:replace="fragments_admin :: nav_head"></div>
+        <div th:replace="fragments_admin :: menu"></div>
+        <div class="db-info-wrap db-package-wrap">
+            <div class="dashboard-box table-opp-color-box">
+                <h4>Danh Sách Công Ty</h4>
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <a th:href="@{'/admin/new-company'}" style="font-size: 17px"><i class="fa-solid fa-circle-plus" ></i>Đăng kí công ty mới</a>
+                            </div>
+                            <div class="col-lg-6">
+                                <input style="border: 2px solid black;" type="text" class="form-control" id="search" placeholder="Tìm kiếm công ty"  >
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Mã Công Ty</th>
+                            <th>Tên Công Ty</th>
+                            <th>Địa Chỉ</th>
+                            <th>Địa Chỉ Email</th>
+                            <th>Trạng Thái</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="company : ${lstCompany}">
+                            <td>
+                                <span class="package-name" style="font-size: 14px" th:text="${company.companyCode}"></span>
+                            </td>
+                            <td th:text="${company.companyName}" style="font-size: 14px"></td>
+                            <td th:text="${company.address}" style="font-size: 14px"></td>
+                            <td th:text="${company.email}" style="font-size: 14px"></td>
+                            <td th:if="${company.accountId} != '-1' ">
+                                <select name="status" th:onchange="'changeStatus(this.value,\'' + ${company.companyId} +'\');'">
+
+                                    <option value="1" th:selected="(${company.status} =='1')">Hoạt Động</option>
+                                    <option value="0" th:selected="(${company.status} =='0')">Chưa Hoạt Động</option>
+                                </select>
+
+                            </td>
+                            <td th:if="${company.accountId} == '-1'" >
+                                <select name="status" style="background-color:#b3b3b3">
+                                    <option value="0" selected="selected" >Chưa Hoạt Động</option>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- pagination html -->
+            <div class="pagination-wrap">
+                <nav class="pagination-inner">
+                    <ul class="pagination disabled">
+                        <li class="page-item"><span class="page-link"><i class="fas fa-chevron-left"></i></span></li>
+                        <li class="page-item"><a href="#" class="page-link active">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/admin_style/js/jquery-3.2.1.min.js}"></script>
+<script src="../../../../cdn.jsdelivr.net/npm/popper.js%401.16.0/dist/umd/popper.min.js"></script>
+<script th:src="@{/admin_style/js/bootstrap.min.js}"></script>
+<script th:src="@{/admin_style/js/canvasjs.min.js}"></script>
+<script th:src="@{/admin_style/js/chart.js}"></script>
+<script th:src="@{/admin_style/js/counterup.min.js}"></script>
+<script th:src="@{/admin_style/js/jquery.slicknav.js}"></script>
+<script th:src="@{/admin_style/js/dashboard-custom.js}"></script>
+<script>
+
+
+</script>
+<script>
+    function changeStatus(statusValue,id){
+        window.location.href= '/admin/change-status/'+statusValue+'/'+id;
+    }
+
+</script>
+
+<script>
+    $(function() {
+        $("#search").keypress(function (e) {
+            if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                var input =  document.getElementById("search").value;
+                if(input.toString() !== ''){
+                    window.location.href= '/admin/search/'+input;
+                }else{
+                    window.location.href= '/admin/search/'+'all';
+
+                }
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

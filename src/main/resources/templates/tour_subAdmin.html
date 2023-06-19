@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: html_head">
+
+</head>
+<body>
+<div id="container-wrapper">
+    <div id="dashboard" class="dashboard-container">
+        <div th:replace="fragments :: nav_head"></div>
+        <div th:replace="fragments :: menu"></div>
+        <div class="db-info-wrap db-package-wrap">
+            <div class="dashboard-box table-opp-color-box">
+                <h4>Danh Sách Tour</h4>
+                <a th:href="@{'/subAdmin/new-Tour'}" style="font-size: 17px"><i class="fa-solid fa-circle-plus" ></i>Thêm tour mới</a>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Hành Trình</th>
+                            <th>Số lượng người  </th>
+                            <th>Địa Điểm Khởi Hành </th>
+                            <th>Khoảng Thời Gian </th>
+                            <th>Điều Chỉnh</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="tour : ${lstTour}">
+                            <td>
+                                <span class="package-name" style="font-size: 14px" th:text="${tour.tourName}"></span>
+                            </td>
+                            <td th:text="${tour.quantity}" style="font-size: 14px"></td>
+                            <td th:text="${tour.startDes}" style="font-size: 14px"></td>
+                            <td th:text="${tour.duration}" style="font-size: 14px"></td>
+                            <td>
+                                <a style="font-size: 14px;color:white"  th:href="@{'/subAdmin/edit-Tour/' + ${tour.tourId}}" class="badge badge-success"><i class="far fa-edit"></i></a>
+                                <a style="font-size: 14px;color: white"  th:href="@{'/subAdmin/delete-Tour/' + ${tour.tourId}}" class="badge badge-danger"><i class="far fa-trash-alt"></i></a>
+                                <a style="font-size: 14px;color: white"  th:href="@{'/subAdmin/review-Tour/' + ${tour.tourId}}" class="badge badge-danger"><i class="fa-sharp fa-solid fa-eye"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- pagination html -->
+            <div class="pagination-wrap">
+                <nav class="pagination-inner">
+                    <ul class="pagination disabled">
+                        <li class="page-item"><span class="page-link"><i class="fas fa-chevron-left"></i></span></li>
+                        <li class="page-item"><a href="#" class="page-link active">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{admin_style/js/jquery-3.2.1.min.js}"></script>
+<script src="../../../../cdn.jsdelivr.net/npm/popper.js%401.16.0/dist/umd/popper.min.js"></script>
+<script th:src="@{admin_style/js/bootstrap.min.js}"></script>
+<script th:src="@{admin_style/js/canvasjs.min.js}"></script>
+<script th:src="@{admin_style/js/chart.js}"></script>
+<script th:src="@{admin_style/js/counterup.min.js}"></script>
+<script th:src="@{admin_style/js/jquery.slicknav.js}"></script>
+<script th:src="@{admin_style/js/dashboard-custom.js}"></script>
+</body>
+</html>

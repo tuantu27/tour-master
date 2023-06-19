@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <!-- Required meta tags -->
+
+    <meta http-equiv="content-type" content="charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&amp;family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&amp;display=swap" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{admin_style/css/style.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{admin_style/css/bootstrap.min.css}" media="all">-->
+    <!--    &lt;!&ndash; Fonts Awesome CSS &ndash;&gt;-->
+    <!--    <link rel="stylesheet" type="text/css"th:href="@{admin_style/css/css/all.min.css}">-->
+    <title>Travele </title>
+</head>
+<body>
+<div id="page" class="full-page">
+    <header id="masthead" class="site-header" style="margin-bottom: 40px">
+        <!-- header html start -->
+        <div class="bottom-header">
+            <div class="container d-flex justify-content-between align-items-center">
+                <div class="site-identity">
+                    <h1 class="site-title">
+                        <a th:href="@{'/home'}">
+                            <img class="white-logo" th:src="|@{/images/}logo.png|" alt="logo" />
+                        </a>
+                    </h1>
+                </div>
+                <div class="main-navigation d-none d-lg-block">
+                    <nav id="navigation" class="navigation">
+                        <ul>
+                            <li th:onclick="'submitForm();'" id="print-tour" style="border-radius:3px;margin: 10px;background-color: #00B294;font-size: 20px;color: white;cursor:pointer;" class="menu-item-has-children">
+                                In thông tin đặt tour
+                            </li>
+                            <li th:onclick="'backHome();'"  id="back-home" style="border-radius:3px;margin: 10px;background-color: #00B294;font-size: 20px;color: white;cursor:pointer;" class="menu-item-has-children">
+                                Quay lại trang chủ
+                            </li>
+
+
+                        </ul>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+        <div class="mobile-menu-container"></div>
+    </header>
+    <main id="content" class="site-main">
+    <div class="package-section">
+        <div class="container">
+        <h5 style="margin-bottom: 20px;">Cảm ơn quý khách đã đặt dịch vụ tại Travele.Chúng tôi sẽ gửi thông tin đặt tour cho quý khách qua email</h5>
+        <h4 class="dash-style">THÔNG TIN KHÁCH HÀNG</h4>
+        <table>
+            <tr>
+                <th>Họ và tên</th>
+                <th>Số căn cước công dân</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Địa chỉ</th>
+            </tr>
+            <tr th:object="${customersDTO}">
+                <td style="color: #9c3328" th:text="${customersDTO.fullName}" th:field="*{fullName}" th:value="${customersDTO.fullName}"></td>
+                <td th:utext="${customersDTO.number_id}" th:field="*{number_id}" th:value="${customersDTO.number_id}"></td>
+                <td th:utext="${customersDTO.phoneNumber}" th:field="*{phoneNumber}" th:value="${customersDTO.phoneNumber}"></td>
+                <td th:utext="${customersDTO.email}" th:field="*{email}" th:value="${customersDTO.email}"></td>
+                <td th:utext="${customersDTO.address}" th:field="*{address}" th:value="${customersDTO.address}"></td>
+            </tr>
+        </table>
+            <h4 class="dash-style">THÔNG TIN CHUYẾN ĐI</h4>
+            <table>
+                <tr>
+                    <th>Tên chuyến đi</th>
+                    <th>Ngày khởi hành</th>
+                    <th>Địa điểm bắt đầu</th>
+                    <th>Khoảng thời gian</th>
+                    <th>Lộ trình</th>
+                </tr>
+                <tr th:object="${toursDTO}">
+                    <td style="color: #9c3328" th:utext="${toursDTO.tourName}" th:field="*{tourName}" th:value="${toursDTO.tourName}"></td>
+                    <td th:utext="${toursDTO.startDate}" th:field="*{startDate}" th:value="${toursDTO.startDate}"></td>
+                    <td th:utext="${toursDTO.startDes}" th:field="*{startDes}" th:value="${toursDTO.startDes}"></td>
+                    <td th:utext="${toursDTO.duration}" th:field="*{duration}" th:value="${toursDTO.duration}"></td>
+                    <td th:utext="${toursDTO.tourName}" th:field="*{tourName}" th:value="${toursDTO.tourName}"></td>
+                </tr>
+            </table>
+            <h4 class="dash-style">THÔNG TIN THANH TOÁN</h4>
+            <table>
+                <tr>
+                    <th>Mã Booking</th>
+                    <th>Ngày Đặt</th>
+                    <th>Số lượng người lớn</th>
+                    <th>Số lượng trẻ con</th>
+                    <th>Số lượng trẻ sơ sinh </th>
+                    <th>Phương thức thanh toán</th>
+                </tr>
+                <tr th:object="${bookingDTO}">
+                    <td style="color: #9c3328" th:utext="${bookingDTO.bookingId}" th:field="*{bookingId}" th:value="${bookingDTO.bookingId}"></td>
+                    <td th:utext="${bookingDTO.bookingTime}" th:field="*{bookingTime}" th:value="${bookingDTO.bookingTime}"></td>
+                    <td th:utext="${bookingDTO.numberAdult}" th:field="*{numberAdult}" th:value="${bookingDTO.numberAdult}"></td>
+                    <td th:utext="${bookingDTO.numberChildren}" th:field="*{numberChildren}" th:value="${bookingDTO.numberChildren}"></td>
+                    <td th:utext="${bookingDTO.numberInfant}" th:field="*{numberInfant}" th:value="${bookingDTO.numberInfant}"></td>
+                    <td th:utext="${bookingDTO.paymentMethod}" th:field="*{paymentMethod}" th:value="${bookingDTO.paymentMethod}"></td>
+                </tr>
+                <tr th:object="${bookingDTO}">
+                    <td ></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Tổng tiền</td>
+                    <td th:utext="${bookingDTO.formatAllPrice + 'VNĐ'}" th:field="*{formatAllPrice}" th:value="${bookingDTO.formatAllPrice}"></td>
+                </tr>
+                <tr>
+                    <td ></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Chưa thanh toán</td>
+
+                </tr>
+            </table>
+            <aside class="widget widget_text">
+                <h3 class="widget-title">Mọi chi tiết hãy liên hệ</h3>
+                <div class="textwidget widget-text">
+                    <ul>
+                        <li>
+                            <a href="#">
+
+                                <i class="fas fa-phone-alt"></i>
+                                Số hotline: 0287777723
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-envelope"></i>
+                                <span class="__cf_email__" data-cfemail="8deee2e0fdece3f4cde9e2e0ece4e3a3eee2e0">travele@gmail.com</span>
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            462 Đường Bưởi , Vĩnh Phúc, Hà Nội
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+                <span style="color: #9c3328">Lưu ý : Thời gian thanh toán trong vòng 24h sau thời gian đặt tour.</span>
+        </div>
+    </div>
+    </main>
+</div>
+
+<!--<form class="form-horizontal" th:action="@{/export/pdf}" id="formPDF" method="post" enctype="multipart/form-data">-->
+<!--<div class="package-section" >-->
+<!--    <div class="container">-->
+<!--        <h5 style="margin-bottom: 20px;">Cảm ơn quý khách đã đặt dịch vụ tại Travele.Chúng tôi sẽ gửi thông tin đặt tour cho quý khách qua email</h5>-->
+<!--        <h4 class="dash-style" style="margin-top: 41px">THÔNG TIN KHÁCH HÀNG</h4>-->
+<!--        <div th:object="${customersDTO}" >-->
+<!--            <label>Họ và tên</label>-->
+<!--            <input readonly="readonly" th:field="*{fullName}" th:value="${customersDTO.fullName}" class="form-control" type="text" />-->
+
+<!--            <label>Số căn cước công dân</label>-->
+<!--            <input readonly="readonly" th:field="*{number_id}" th:value="${customersDTO.number_id}" class="form-control" type="text" />-->
+
+<!--            <label>Số điện thoại</label>-->
+<!--            <input readonly="readonly" th:field="*{phoneNumber}" th:value="${customersDTO.phoneNumber}" class="form-control" type="text" />-->
+
+<!--            <label>Email</label>-->
+<!--            <input readonly="readonly" th:field="*{email}" th:value="${customersDTO.email}" class="form-control" type="text" />-->
+
+<!--            <label>Địa chỉ</label>-->
+<!--            <input readonly="readonly" th:field="*{address}" th:value="${customersDTO.address}" class="form-control" type="text" />-->
+
+<!--        </div>-->
+<!--        <h4 class="dash-style" style="margin-top: 41px">THÔNG TIN CHUYẾN ĐI</h4>-->
+<!--        <div th:object="${toursDTO}">-->
+<!--                <label>Tên chuyến đi</label>-->
+<!--                <input readonly="readonly" th:field="*{tourName}" th:value="${toursDTO.tourName}" class="form-control" type="text" />-->
+
+<!--                 <label>Ngày khởi hành</label>-->
+<!--                <input readonly="readonly" th:field="*{startDate}" th:value="${toursDTO.startDate}" class="form-control" type="text" />-->
+
+<!--                <label>Địa điểm bắt đầu</label>-->
+<!--                <input readonly="readonly" th:field="*{startDes}" th:value="${toursDTO.startDes}" class="form-control" type="text" />-->
+
+<!--                 <label>Khoảng thời gian</label>-->
+<!--                 <input readonly="readonly" th:field="*{duration}" th:value="${toursDTO.duration}" class="form-control" type="text" />-->
+
+<!--                 <label>Lộ trình</label>-->
+<!--                <input readonly="readonly" th:field="*{tourName}" th:value="${toursDTO.tourName}" class="form-control" type="text" />-->
+<!--        </div>-->
+
+<!--        <h4 class="dash-style" style="margin-top: 41px">THÔNG TIN THANH TOÁN</h4>-->
+<!--        <div th:object="${bookingDTO}">-->
+<!--                <label>Mã Booking</label>-->
+<!--            <input readonly="readonly" th:field="*{bookingId}" th:value="${bookingDTO.bookingId}" class="form-control" type="text" />-->
+
+<!--            <label>Ngày Đặt</label>-->
+<!--            <input readonly="readonly" th:field="*{bookingTime}" th:value="${bookingDTO.bookingTime}" class="form-control" type="text" />-->
+
+<!--            <label>Số lượng người lớn</label>-->
+<!--            <input readonly="readonly" th:field="*{numberAdult}" th:value="${bookingDTO.numberAdult}" class="form-control" type="text" />-->
+
+<!--            <label>Số lượng trẻ con</label>-->
+<!--            <input readonly="readonly" th:field="*{numberChildren}" th:value="${bookingDTO.numberChildren}" class="form-control" type="text" />-->
+
+<!--            <label>Số lượng trẻ sơ sinh </label>-->
+<!--            <input readonly="readonly" th:field="*{numberInfant}" th:value="${bookingDTO.numberInfant}" class="form-control" type="text" />-->
+
+<!--            <label>Phương thức thanh toán</label>-->
+<!--            <input readonly="readonly" th:field="*{paymentMethod}" th:value="${bookingDTO.paymentMethod}" class="form-control" type="text" />-->
+
+<!--            <label>Tổng tiền</label>-->
+<!--            <input readonly="readonly" th:field="*{formatAllPrice}" th:value="${bookingDTO.formatAllPrice}" class="form-control" type="text" />-->
+
+<!--            <label style="color: #9c3328; margin-top: 30px">Chưa thanh toán !</label>-->
+<!--            </div>-->
+
+<!--        <aside class="widget widget_text">-->
+<!--            <h3 class="widget-title">Mọi chi tiết hãy liên hệ</h3>-->
+<!--            <div class="textwidget widget-text">-->
+<!--                <ul>-->
+<!--                    <li>-->
+<!--                        <a href="#">-->
+
+<!--                            <i class="fas fa-phone-alt"></i>-->
+<!--                            Số hotline: 0287777723-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="#">-->
+<!--                            <i class="fas fa-envelope"></i>-->
+<!--                            <span class="__cf_email__" data-cfemail="8deee2e0fdece3f4cde9e2e0ece4e3a3eee2e0">travele@gmail.com</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <i class="fas fa-map-marker-alt"></i>-->
+<!--                        462 Đường Bưởi , Vĩnh Phúc, Hà Nội-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </aside>-->
+<!--        <span style="color: #9c3328">Lưu ý : Thời gian thanh toán trong vòng 24h sau thời gian đặt tour.</span>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</form>-->
+
+<script>
+function submitForm(){
+   // document.getElementById("formPDF").submit();
+    document.getElementById("print-tour").style.display = "none";
+    document.getElementById("back-home").style.display = "none";
+    window.print();
+    window.location.href= '/home';
+}
+</script>
+<script>
+    function backHome(){
+        window.location.href= '/home';
+    }
+</script>
+</body>
+</html>

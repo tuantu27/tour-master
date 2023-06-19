@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<head th:replace="fragments_user :: user_head">
+
+</head>
+   <body>
+
+      <div id="page" class="full-page">
+         <header id="masthead" class="site-header header-primary" th:replace="fragments_user :: user_nav">
+         </header>
+         <main id="content" class="site-main">
+            <!-- Inner Banner html start-->
+            <section class="inner-banner-wrap">
+               <div class="inner-baner-container" style="background-image: url(/images_data/banner-du-lich.jpg)">
+                  <div class="container">
+                     <div class="inner-banner-content">
+                        <h1 class="inner-title"></h1>
+                     </div>
+                  </div>
+               </div>
+               <div class="inner-shape"></div>
+            </section>
+            <!-- Inner Banner html end-->
+            <div class="single-tour-section">
+               <div class="container">
+                  <div class="row">
+                     <div class="col-lg-8">
+                        <div class="single-tour-inner" th:object="${tourDetail}">
+                           <h2 style="font-size: 32px;" th:text="${tourDetail.tourName}"></h2>
+                           <figure class="feature-image">
+                              <img style="width: 100%;" th:src="|@{/images_data/}${tourDetail.imgName}|" alt="">
+                              <div class="package-meta text-center">
+                                 <ul>
+                                    <i class="fa-sharp fa-solid fa-timer"></i>
+                                    <li th:text="'Thời gian diễn ra : ' + ${tourDetail.duration}">
+
+
+                                    </li>
+                                    <li th:text="'Ngày khởi hành  : ' + ${tourDetail.startDate}">
+                                       <i class="fa-solid fa-calendar"></i>
+                                    </li>
+                                    <li style="margin-top: 10px" th:text="'Khởi Hành Tại : '+ ${tourDetail.startDes}">
+                                       <i class="fas fa-map-marked-alt"></i>
+
+                                    </li>
+                                 </ul>
+                              </div>
+                           </figure>
+                           <div class="tab-container">
+                              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                 <li class="nav-item">
+                                    <a class="nav-link active" id="overview-tab" data-toggle="tab"  role="tab" aria-controls="overview" aria-selected="true">Mô tả chi tiết</a>
+                                 </li>
+                              </ul>
+                              <div class="tab-content" id="myTabContent">
+                                 <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                                       <div class="overview-content" th:utext="${tourDetail.description}"></div>
+
+                                 </div>
+
+                              </div>
+                           </div>
+
+                        </div>
+                     </div>
+                     <div class="col-lg-4" th:object="${tourDetail}">
+                        <input type="hidden" id="adultPrice" th:value="${tourDetail.priceAdult}">
+                        <input type="hidden"  id="childrenPrice" th:value="${tourDetail.priceChildren}">
+                        <input type="hidden"  id="infantPrice" th:value="${tourDetail.priceInfant}">
+                        <div class="sidebar">
+                           <div class="package-price">
+                              <h5 class="price">
+                                 <span th:text="${tourDetail.formatPrice}"></span> VNĐ /Giá người lớn
+                              </h5>
+                              <h5 class="price">
+                                 <span th:text="${tourDetail.formatPriceChil}"></span> VNĐ /Giá trẻ con
+                              </h5>
+                              <h5 class="price">
+                                 <span th:text="${tourDetail.formatPriceIn}"></span> VNĐ /Giá trẻ sơ sinh
+                              </h5>
+                              <div class="start-wrap">
+                                 <div class="rating-start" title="Rated 5 out of 5">
+                                    <span style="width: 60%"></span>
+                                 </div>
+                              </div>
+                           </div>
+                           <!--                 BOOKING        -->
+                           <div class="widget-bg booking-form-wrap">
+                              <h4 class="bg-title">Nhập thông tin của bạn</h4>
+                              <form class="booking-form" id="formSubmit" th:action="@{/booking}" method="post" >
+                                 <div class="row" th:object="${infoBookingDTO}">
+                                    <input  th:field="*{tourId}" th:value="${infoBookingDTO.tourId}" type="hidden" placeholder="Họ tên">
+                                    <div class="col-sm-12">
+                                       <div class="form-group">
+                                          <input  th:field="*{fullName}" id="fullName" type="text" placeholder="Họ tên">
+                                       </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                       <div class="form-group">
+                                          <input  th:field="*{email}" id="emailCus" type="text" placeholder="Email" th:onchange="'validateEmail();'">
+                                       </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                       <div class="form-group">
+                                          <input  th:field="*{phoneNumber}" id="phoneNumber" type="text" placeholder="Số điện thoại" th:onchange="'validatePhone();'">
+                                       </div>
+                                    </div> <div class="col-sm-12">
+                                    <div class="form-group">
+                                       <input  th:field="*{address}" id="addressCus" type="text" placeholder="Địa chỉ">
+                                    </div>
+                                 </div>
+
+                                    <div class="col-sm-12">
+                                       <div class="form-group">
+                                          <input  th:field="*{number_id}" id="CCCD" type="text" placeholder="Số CCCD" th:onchange="'validateNumber();'">
+                                       </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                       <div class="form-group">
+                                          <div class="row">
+                                             <div class="col-sm-6" th:object="${tourDetail}">
+                                                <input type="date" th:field="*{startDate}" id="dateContent" name="date" value="" th:onchange="'view_quantity(\'' + ${tourDetail.tourId} + '\');'" >
+                                             </div>
+                                             <div class="col-sm-6" id="quantityValue"></div>
+
+                                             </div>
+                                       </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                       <div class="form-group">
+                                          <input  type="text" id="numberAdult" value="0" th:onchange="'cacl_base();'" th:field="*{numberAdult}" placeholder="Số lượng người lớn">
+                                       </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                       <div class="form-group">
+                                          <input  type="text" id="numberChildren"  value="0" th:onchange="'cacl_base();'" th:field="*{numberChildren}" placeholder="Số lượng trẻ con">
+                                       </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                       <div class="form-group">
+                                          <input  type="text"  id="numberInfant"  value="0" th:onchange="'cacl_base();'" th:field="*{numberInfant}" placeholder="Số lượng người trẻ sơ sinh">
+                                       </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                    <label>Phương thức thanh toán</label>
+                                    <select name="payment" id="roleChoose">
+                                       <option style="font-size: 15px;" value="1">Thanh Toán Trực Tiếp</option>
+                                       <option style="font-size: 15px;" value="2">Chuyển Khoản</option>
+                                    </select>
+                                    </div>
+                                    <div class="col-sm-12" style="margin-top: 10px">
+                                       Tổng tiền (VNĐ)
+                                       <input  type="hidden" id="totalPrice" th:field="*{totalPrice}" readonly="readonly">
+                                       <div class="form-group">
+                                          <input  type="text" id="totalPriceView"  readonly="readonly">
+                                       </div>
+                                    </div>
+                                    <input  th:field="*{numberRest}" id="numberRest" type="hidden">
+                                    <!--                                    <div class="col-sm-12">-->
+<!--                                       <div class="form-group">-->
+<!--                                          <input class="input-date-picker hasDatepicker" th:field="*{bookingTime}" type="text" name="s" autocomplete="off" readonly="readonly" placeholder="" id="dp1683796984768">-->
+<!--                                       </div>-->
+<!--                                    </div>-->
+
+<!--                                    <div style="width: auto;height: 56px">Tổng tiền :</div>-->
+                                    <div class="col-sm-12">
+                                       <div class="form-group submit-btn">
+                                          <span style="display: block;
+                                                      width: 100px;
+                                                      color: white;
+                                                      text-align: center;
+                                                      height: 43px;
+                                                      border: 2px solid;
+                                                      border-radius: 10px;
+                                                      margin-left: 81px;
+                                                      padding-top: 7px;
+                                                      cursor: pointer;
+                                                      background-color: #048CAD" th:onclick="'submitData();'">Đặt ngay</span>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </form>
+                           </div>
+
+                              <div class="comment-area">
+                                 <h3 class="comment-title" th:text="${listReview.size} + ' bình luận'"></h3>
+                                 <div class="comment-area-inner">
+                                    <ol th:each="review : ${listReview}">
+                                       <li>
+                                          <div class="comment-content">
+                                             <div class="comment-header">
+                                                <h5 class="author-name" style="color:#F56960" th:text="${review.fullName}"></h5>
+                                                <span class="post-on" style="margin-top: 10px" th:text="${review.createAt}"></span>
+
+                                             </div>
+                                             <p th:text="${review.content}"></p>
+                                          </div>
+                                       </li>
+
+                                    </ol>
+                                 </div>
+                              </div>
+                           <div class="comment-form-wrap">
+                              <h3 class="comment-title">Để lại bình luận </h3>
+                              <form class="comment-form"  id="submitRV" th:action="@{/add_review}" method="post" >
+                                 <div th:object="${reviewsDTO}">
+                                    <input type="hidden" th:field="*{tourId}" th:value="${reviewsDTO.tourId}" placeholder="Họ và tên">
+                                 <p>
+                                    <input id="nameRV" type="text" th:field="*{fullName}"  placeholder="Họ và tên">
+                                 </p>
+                                 <p>
+                                    <textarea id="contentRV" rows="6" th:field="*{content}"  placeholder="Nội dung bình luận"></textarea>
+                                 </p>
+                                 <p>
+                                    <input type="submit" name="submit" value="Bình luận" th:onclick="'submitRV();'">
+                                 </p>
+                                 </div>
+                              </form>
+                           </div>
+                           </div>
+
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+         </main>
+         <footer id="colophon" class="site-footer footer-primary" th:replace="fragments_user::user_footer">
+
+         </footer>
+         <a id="backTotop" href="file:///D:/travel_template/demo.bosathemes.com/html/travele/package-detail.html#" class="to-top-icon" style="display: block;">
+            <i class="fas fa-chevron-up"></i>
+         </a>
+
+      </div>
+
+<!--      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+      <script>
+         function validatePhone(){
+            var content = document.getElementById("phoneNumber").value;
+            var phoneNumber = /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
+            if(!content.match(phoneNumber))
+            {
+               alert("Sai định dạng số điện thoại!");
+               document.getElementById("phoneNumber").value='';
+               document.getElementById("phoneNumber").focus();
+               return true;
+            }
+         }
+         function validateEmail(){
+            var content = document.getElementById("emailCus").value;
+            var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if(!content.match(mailformat))
+            {
+               alert("Sai định dạng email!");
+               document.getElementById("emailCus").value='';
+               document.getElementById("emailCus").focus();
+               return true;
+            }
+         }
+         function validateNumber(){
+            var cccd = document.getElementById("CCCD").value;
+            var numformat = /[^0-9]/g;
+            if(cccd.match(numformat)) {
+               alert("Sai định dạng số!");
+               document.getElementById("CCCD").value='';
+               document.getElementById("CCCD").focus();
+               return true;
+            }
+         }
+         function cacl_base(){
+
+            var priceAdult = document.getElementById("adultPrice").value;
+            var priceChildren = document.getElementById("childrenPrice").value;
+            var priceInfant = document.getElementById("infantPrice").value;
+            var numformat = /[^0-9]/g;
+            var numberAdult = document.getElementById("numberAdult");
+            var x = numberAdult.value === "" ? "0" : document.getElementById("numberAdult").value
+            var numberChil = document.getElementById("numberChildren");
+            var y = numberChil.value === "" ? "0" : document.getElementById("numberChildren").value
+            var numberInfant = document.getElementById("numberInfant");
+            var z =numberInfant.value === "" ? "0" : document.getElementById("numberInfant").value
+            if(numberAdult.value.match(numformat)) {
+               alert("Sai định dạng số!");
+               document.getElementById("numberAdult").value='';
+               document.getElementById("numberAdult").focus();
+               return true;
+            }else if(numberChil.value.match(numformat)) {
+               alert("Sai định dạng số!");
+               document.getElementById("numberChildren").value='';
+               document.getElementById("numberChildren").focus();
+               return true;
+            }else if(numberInfant.value.match(numformat)) {
+               alert("Sai định dạng số!");
+               document.getElementById("numberInfant").value='';
+               document.getElementById("numberInfant").focus();
+               return true;
+            }
+            let innerValue = document.getElementById("sumNumber");
+            let innerValue_copy = document.getElementById("sumNumber_copy");
+            var numberR = Number(x) + Number(y) + Number(z);
+            if(Number(numberR) > Number(innerValue_copy.innerText) ){
+               alert("Quá số lượng cho phép!");
+               document.getElementById("numberChildren").value='';
+               document.getElementById("numberInfant").value='';
+               document.getElementById("numberAdult").value='';
+               document.getElementById("sumNumber").innerText = innerValue_copy.innerText;
+               return true;
+            }
+            document.getElementById("sumNumber").innerText = (Number(innerValue_copy.innerText) - Number(numberR)).toString();
+            var total = document.getElementById("totalPrice");
+            var totalView = document.getElementById("totalPriceView");
+            var priceAll = parseFloat(priceAdult)*parseFloat(x) + parseFloat(priceChildren)*parseFloat(y) + parseFloat(priceInfant)*parseFloat(z);
+            total.value = priceAll;
+            var priceView = priceAll;
+            priceView = priceView.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+            totalView.value = priceView;
+
+         }
+      </script>
+      <script>
+         function submitData(){
+            var numberAdult = document.getElementById("numberAdult");
+            var numberChil = document.getElementById("numberChildren");
+            var numberInfant = document.getElementById("numberInfant");
+            var fullName = document.getElementById("fullName");
+            var emailCus = document.getElementById("emailCus");
+            var phoneNumber = document.getElementById("phoneNumber");
+            var CCCD = document.getElementById("CCCD");
+            var formSubmit = document.getElementById("formSubmit");
+            var addressCus = document.getElementById("addressCus");
+            var sumNumber = document.getElementById("sumNumber");
+            var dateContent = document.getElementById("dateContent");
+            document.getElementById("numberRest").value = Number(sumNumber.innerText);
+            if(fullName.value===""){
+               alert("Bạn phải nhập họ tên");
+               fullName.focus();
+               return false;
+            }else if(emailCus.value===""){
+               alert("Bạn phải nhập email");
+               emailCus.focus();
+               return false;
+            } else if(phoneNumber.value===""){
+               alert("Bạn phải nhập số điện thoại");
+               phoneNumber.focus();
+               return false;
+            } else if(CCCD.value===""){
+               alert("Bạn phải nhập số căn cước công dân");
+               CCCD.focus();
+               return false;
+            } else if(addressCus.value===""){
+               alert("Bạn phải nhập địa chỉ");
+               addressCus.focus();
+               return false;
+            }else if(numberAdult.value==="" && numberChil.value==="" && numberInfant.value===""){
+               alert("Bạn phải nhập số lượng người tham gia");
+               numberAdult.focus();
+               return false;
+            } else if(dateContent.value===""){
+               alert("Bạn phải chọn ngày đi");
+               dateContent.focus();
+               return false;
+            }else{
+               formSubmit.submit();
+            }
+
+
+
+
+
+         }
+      </script>
+      <script>
+         function submitRV(){
+            var nameRV = document.getElementById("nameRV");
+            var contentRV = document.getElementById("contentRV");
+            var submitRV = document.getElementById("submitRV");
+            if(nameRV.value===""){
+               alert("Bạn phải nhập họ tên");
+               nameRV.focus();
+               return false;
+            }else if(contentRV.value==="") {
+               alert("Bạn phải nhập nội dung bình luận");
+               contentRV.focus();
+               return false;
+            }else{
+               submitRV.submit();
+
+            }
+
+         }
+
+      </script>
+
+      <!-- JavaScript -->
+<!--      <script th:src="@{/js/jquery.js}"></script>-->
+
+
+      <!--<script src="../../../cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>-->
+      <script th:src="@{/vendors/bootstrap/js/bootstrap.min.js}"></script>
+      <script th:src="@{/vendors/jquery-ui/jquery-ui.min.js}"></script>
+      <script th:src="@{/vendors/countdown-date-loop-counter/loopcounter.js}"></script>
+      <script th:src="@{/js/jquery.counterup.js}"></script>
+      <script th:src="@{/vendors/modal-video/jquery-modal-video.min.js}"></script>
+      <script th:src="@{/vendors/masonry/masonry.pkgd.min.js}"></script>
+      <!--<script th:src="@{vendors/lightbox.dist/js/lightbox.min.js}"></script>-->
+      <script th:src="@{/vendors/slick/slick.min.js}"></script>
+      <script th:src="@{/js/jquery.slicknav.js}"></script>
+      <script th:src="@{/js/ajax.js}"></script>
+   <script>(function(){var js = "window['__CF$cv$params']={r:'7b74881b0e2b8950',m:'3NYw6LCNy_OyIpKarO.DTJmwIzIYSa9q53J_aZSGmHw-1681397534-0-ARKmmvz2ypB5vLFmvdxnplSh+1NlGQO6TR7tVUxhlWf0',u:'/cdn-cgi/challenge-platform/h/g'};var now=Date.now()/1000,offset=14400,ts=''+(Math.floor(now)-Math.floor(now%offset)),_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='../../cdn-cgi/challenge-platform/h/g/scripts/jsd/5dc70eb9/invisible5615.js?ts='+ts,document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.nonce = '';_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;" src="./tour_view_files/saved_resource.html"></iframe>
+
+
+<div id="lightboxOverlay" tabindex="-1" class="lightboxOverlay" style="display: none;"></div><div id="lightbox" tabindex="-1" class="lightbox" style="display: none;"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt=""><div class="lb-nav"><a class="lb-prev" aria-label="Previous image" href="file:///D:/travel_template/demo.bosathemes.com/html/travele/package-detail.html"></a><a class="lb-next" aria-label="Next image" href="file:///D:/travel_template/demo.bosathemes.com/html/travele/package-detail.html"></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body><!-- Mirrored from demo.bosathemes.com/html/travele/package-detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 13 Apr 2023 14:56:30 GMT --></html>

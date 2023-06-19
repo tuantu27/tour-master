@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: html_head">
+
+</head>
+<body>
+<div id="container-wrapper">
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard-container">
+        <div th:replace="fragments :: nav_head"></div>
+        <div th:replace="fragments :: menu"></div>
+
+        <div class="db-info-wrap" style="position: relative">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="dashboard-box">
+                        <h4>Chỉnh sửa thông tin </h4>
+                        <form class="form-horizontal" th:action="@{/subAdmin/updateProfile}" method="post" enctype="multipart/form-data">
+                            <div class="row" th:object="${company}">
+                                <input type="hidden" th:field="*{companyId}"  th:value="${company.companyId}">
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Tên công ty</label>
+                                        <input th:field="*{companyName}"  th:value="${company.companyName}" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Địa chỉ </label>
+                                        <input  th:field="*{address}" th:value="${company.address}" class="form-control" type="text" >
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Mã công ty</label>
+                                        <input th:field="*{companyCode}"  th:value="${company.companyCode}" class="form-control" type="text" >
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Địa chỉ email</label>
+                                        <input  th:field="*{email}" th:value="${company.email}" id="email" class="form-control" type="text" th:onchange="'validateEmail();'">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <button type="submit" class="myBtn" name="Submit" style="border-radius: 10%;
+                                width: 100px;
+                                font-size: 18px;
+                                margin-top: 15px;
+                                height: 40px;">Chỉnh sửa</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/ckeditor/ckeditor.js}"></script>
+<script th:src="@{/ckfinder/ckfinder.js}"></script>
+<script th:src="@{/admin_style/js/jquery-3.2.1.min.js}"></script>
+<script src="../../../../cdn.jsdelivr.net/npm/popper.js%401.16.0/dist/umd/popper.min.js"></script>
+<script th:src="@{/admin_style/js/bootstrap.min.js}"></script>
+<script th:src="@{/admin_style/js/canvasjs.min.js}"></script>
+<script th:src="@{/admin_style/js/chart.js}"></script>
+<script th:src="@{/admin_style/js/counterup.min.js}"></script>
+<script th:src="@{/admin_style/js/jquery.slicknav.js}"></script>
+<script th:src="@{/admin_style/js/dashboard-custom.js}"></script>
+
+<script>
+    function validateEmail(){
+        var content = document.getElementById("email").value;
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if(!content.match(mailformat))
+        {
+            alert("Sai định dạng email!");
+            document.getElementById("email").value='';
+            document.getElementById("email").focus();
+            return true;
+        }
+    }
+</script>
+</body>
+</html>

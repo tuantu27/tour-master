@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: html_head">
+
+</head>
+<body>
+<div id="container-wrapper">
+    <div id="dashboard" class="dashboard-container">
+        <div th:replace="fragments :: nav_head"></div>
+        <div th:replace="fragments :: menu"></div>
+        <div class="db-info-wrap db-package-wrap">
+            <div class="dashboard-box table-opp-color-box">
+                <h4>Danh Sách Khách Hàng </h4>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Tên Khách hàng</th>
+                            <th>Số Căn Cước Công Dân </th>
+                            <th>Tên Chuyến Đi </th>
+                            <th>Thời Gian Đặt </th>
+                            <th>Thao Tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="booking : ${bookingDTOS}">
+                            <td>
+                                <span class="package-name" style="font-size: 14px" th:text="${booking.customersDTO.fullName}"></span>
+                            </td>
+                            <td th:text="${booking.customersDTO.number_id}" style="font-size: 14px"></td>
+                            <td  th:text="${booking.toursDTO.tourName}" style="font-size: 14px"></td>
+                            <td th:text="${booking.bookingTime}" style="font-size: 14px"></td>
+                            <td>
+                                <a style="font-size: 14px;color: white"  th:href="@{'/subAdmin/view-Email/'+ ${booking.bookingId} +'/' + ${booking.customersDTO.customerId}}" class="badge badge-success"><i class="fa-solid fa-envelope"></i></a>
+
+                                <!--                               <a style="font-size: 14px;color:white" th:href="@{'/subAdmin/view-Email/'+${booking.customersDTO.customerId} '/' + ${booking.bookingId}}" class="badge badge-success"><i class="fa-solid fa-envelope"></i></a>-->
+                               <a style="font-size: 14px;color: white"  th:href="@{'/subAdmin/delete-Booking/' + ${booking.bookingId}}" class="badge badge-danger"><i class="far fa-trash-alt"></i></a>
+<!--                                <a style="font-size: 14px;color: white"  th:href="@{'/subAdmin/review-Tour/' + ${tour.tourId}}" class="badge badge-danger"><i class="fa-sharp fa-solid fa-eye"></i></a>-->
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- pagination html -->
+            <div class="pagination-wrap">
+                <nav class="pagination-inner">
+                    <ul class="pagination disabled">
+                        <li class="page-item"><span class="page-link"><i class="fas fa-chevron-left"></i></span></li>
+                        <li class="page-item"><a href="#" class="page-link active">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{admin_style/js/jquery-3.2.1.min.js}"></script>
+<script src="../../../../cdn.jsdelivr.net/npm/popper.js%401.16.0/dist/umd/popper.min.js"></script>
+<script th:src="@{admin_style/js/bootstrap.min.js}"></script>
+<script th:src="@{admin_style/js/canvasjs.min.js}"></script>
+<script th:src="@{admin_style/js/chart.js}"></script>
+<script th:src="@{admin_style/js/counterup.min.js}"></script>
+<script th:src="@{admin_style/js/jquery.slicknav.js}"></script>
+<script th:src="@{admin_style/js/dashboard-custom.js}"></script>
+</body>
+</html>

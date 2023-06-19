@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: html_head">
+
+</head>
+<body>
+<div id="container-wrapper">
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard-container">
+        <div th:replace="fragments :: nav_head"></div>
+        <div th:replace="fragments :: menu"></div>
+
+        <div class="db-info-wrap" style="position: relative">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="dashboard-box">
+                        <h4>Chỉnh sửa thông tin</h4>
+                        <form class="form-horizontal" th:action="@{/subAdmin/updateTour}" method="post" enctype="multipart/form-data">
+                            <div class="row" th:object="${tourDTO}">
+                                <input type="hidden" th:field="*{tourId}" th:value="${tourDTO.tourId}">
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Lộ trình chuyến đi</label>
+                                        <input  th:field="*{tourName}" th:value="${tourDTO.tourName}" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Số người tham gia</label>
+                                        <input  th:field="*{quantity}" th:value="${tourDTO.quantity}" class="form-control" type="text" >
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Khoảng thời gian </label>
+                                        <input  th:field="*{duration}" th:value="${tourDTO.duration}" class="form-control" type="text" placeholder="...ngày...đêm">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Giá người lớn</label>
+                                        <input  th:field="*{priceAdult}" th:value="${tourDTO.priceAdult}" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Giá trẻ con</label>
+                                        <input  th:field="*{priceChildren}" th:value="${tourDTO.priceChildren}" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+
+                                    <div class="form-group">
+                                        <label>Giá trẻ sơ sinh</label>
+                                        <input  th:field="*{priceInfant}" th:value="${tourDTO.priceInfant}" class="form-control" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Chọn địa điểm tour</label>
+                                        <input type="hidden" class="form-control"  readonly name="destination" >
+                                        <input   id="currentDes" class="form-control" type="text" readonly >
+                                        <select name="destination" id="destination" multiple="multiple">
+                                            <option th:each="type : ${lstTypeTour}" th:value="${type.typeTourId}" th:text="${type.nameTypeTour}"></option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-2"  style="top: 40px;" >
+                                    <div class="form-group">
+                                        <a id="myBtn" style="cursor: pointer"> <i class="fa-solid fa-circle-plus" style="font-size: 17px" ></i>Thêm địa điểm tour</a>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>Địa điểm khởi hành</label>
+                                        <input  th:field="*{startDes}" th:value="${tourDTO.startDes}" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Ảnh đại diện</label>
+                                        <img id="blah" title="profile image" class="img-circle img-responsive " style="width: 50%;height: 15%" th:src="|@{/images_data/}${tourDTO.imgName}|">
+                                        <input type="file" id="imgInp" name="newImage" accept="image/png , image/jpeg">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Chi tiết chuyến đi</label>
+                                        <textarea th:field="*{description}" th:value="${tourDTO.description}" id="content"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br>
+                            <button type="submit" class="myBtn" name="Submit" style="border-radius: 10%;
+                                width: 100px;
+                                font-size: 18px;
+                                margin-top: 15px;
+                                height: 40px;">Chỉnh sửa</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="myModal" class="modal" style="display: none; /* Hidden by default */
+                                                  position: absolute; /* Stay in place */
+                                                  z-index: 1; /* Sit on top */
+                                                  padding-top: 100px; /* Location of the box */
+                                                  left: 505px;
+                                                  top: 145px;
+                                                  width: 50%; /* Full width */
+                                                  height: 62%; /* Full height */
+                                                  overflow: auto; /* Enable scroll if needed */
+                                                  background-color: rgb(0,0,0); /* Fallback color */
+                                                  background-color: rgba(0,0,0,0.4);">
+            <!-- Modal content -->
+            <form class="form-horizontal" th:action="@{/subAdmin/saveTypeTour}" method="post">
+                <div class="modal-content" style="  background-color: #fefefe;
+                                                  margin: auto;
+                                                  padding: 20px;
+                                                  border: 1px solid #888;
+                                                  width: 80%;" th:object="${typeTourDTO}">
+                    <span class="close">&times;</span>
+                    <input type="hidden" th:field="*{typeTourId}">
+                    <label>Tên Loại Tour </label>
+                    <input  th:field="*{nameTypeTour}" class="form-control" type="text">
+
+                    <label style="margin-top: 15px;">Vùng miền </label>
+                    <select th:field="*{region}">
+                        <option value="1" >Du lịch Miền Bắc</option>
+                        <option value="2" >Du lịch Miền Trung</option>
+                        <option value="3" >Du lịch Miền Nam</option>
+                    </select>
+                    <button type="submit" class="myBtn" style="border-radius: 10%;
+                    width: 100px;
+                    font-size: 15px;
+                    margin-top: 15px;
+                    height: 35px;" name="Submit">Thêm mới</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/ckeditor/ckeditor.js}"></script>
+<script th:src="@{/ckfinder/ckfinder.js}"></script>
+<script th:src="@{/admin_style/js/jquery-3.2.1.min.js}"></script>
+<script src="../../../../cdn.jsdelivr.net/npm/popper.js%401.16.0/dist/umd/popper.min.js"></script>
+<script th:src="@{/admin_style/js/bootstrap.min.js}"></script>
+<script th:src="@{/admin_style/js/canvasjs.min.js}"></script>
+<script th:src="@{/admin_style/js/chart.js}"></script>
+<script th:src="@{/admin_style/js/counterup.min.js}"></script>
+<script th:src="@{/admin_style/js/jquery.slicknav.js}"></script>
+<script th:src="@{/admin_style/js/dashboard-custom.js}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#destination').selectize({
+            sortField: 'text'
+        });
+    });
+</script>
+<!--view addtribue from controller to js-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var x = /*[[${lstCurTypeTour}]]*/ "lstCurTypeTour";
+
+    /*]]>*/
+    var lstValue=x[0].nameTypeTour;
+    for (var i =1;i<x.length;i++){
+
+        lstValue +='--' + x[i].nameTypeTour;
+    }
+    document.getElementById("currentDes").value = lstValue;
+</script>
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+        integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+></script>
+<script>
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#imgInp").change(function(){
+        readURL(this);
+    });
+</script>
+<script>
+
+    CKEDITOR
+        .replace(
+            'content',
+            {
+                filebrowserBrowseUrl : '/ckfinder/ckfinder.html',
+                filebrowserImageBrowseUrl : '/ckfinder/ckfinder.html?type=Images',
+                filebrowserFlashBrowseUrl : '/ckfinder/ckfinder.html?type=Flash',
+                filebrowserUploadUrl : '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
+                filebrowserImageUploadUrl : '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+                filebrowserFlashUploadUrl : '/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+            });
+</script>
+
+
+</body>
+</html>

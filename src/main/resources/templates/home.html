@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments_user :: user_head">
+
+</head>
+<body class="home">
+
+<div id="page" class="full-page">
+    <header id="masthead" class="site-header header-primary" th:replace="fragments_user::user_nav">
+    </header>
+    <main id="content" class="site-main">
+        <!-- Home banner html start -->
+        <section class="home-banner-section">
+            <div class="home-banner-items">
+                <div class="banner-inner-wrap" style="background-image: url(/images_data/banner-du-lich.jpg)" ></div>
+                <div class="banner-content-wrap">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-8">
+                                <div class="banner-content section-heading section-heading-white">
+                                    <h3 class="banner-title">Chào mừng đến với Travele</h3>
+                                    <h4 style="color: white">Khám phá mọi miền Tổ Quốc</h4>
+                                    <div class="title-icon-divider"><i class="fas fa-suitcase-rolling"></i></div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <!-- Home search field html start -->
+                                <div class="trip-search-section">
+                                    <div class="container">
+                                        <div class="trip-search-inner secondary-bg">
+                                            <div class="input-group width-col-1">
+                                                <label> Địa điểm muốn đến  </label>
+                                                <input type="text" name="des" placeholder="Địa điểm" id="desContent">
+                                            </div>
+                                            <div class="input-group width-col-1">
+                                                <label> Ngày khởi hành </label>
+                                                <input type="date" id="dateContent" name="date" value="" >
+                                            </div>
+                                            <div class="width-col-1">
+                                                <button style="margin-top: 10px;
+                                                    width: 100px;
+                                                    height: 40px;
+                                                    border-radius: 10px;
+                                                    margin-left: 81px;" name="travel-search" th:onclick="'searchTour();'">Tìm kiếm</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- search search field html end -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="overlay"></div>
+            </div>
+        </section>
+
+        <div class="package-section">
+            <div class="container">
+                <div class="package-inner">
+                    <div class="row" th:if="${lstTour.size() > 0}">
+                        <div class="col-lg-4 col-md-6" th:each="tour:${lstTour}">
+                            <div class="package-wrap">
+                                <figure class="feature-image">
+                                    <a href="#">
+                                        <img th:src="|@{/images_data/}${tour.imgName}|" alt="">
+                                    </a>
+                                </figure>
+                                <div class="package-price">
+                                    <h6>
+                                        <span th:text="${tour.formatPrice}"></span> VND/người
+                                    </h6>
+                                </div>
+                                <div class="package-content-wrap">
+                                    <div class="package-meta text-center">
+                                        <ul>
+                                            <li th:text="${tour.duration}">
+                                                <i class="far fa-clock"></i>
+                                                7D/6N
+                                            </li>
+
+                                            <li th:text="'Khởi Hành Tại : '+ ${tour.startDes}">
+<!--                                                <i class="fas fa-map-marker-alt"></i>-->
+                                                Malaysia
+                                            </li>
+<!--                                            <li th:text="'Ngày Bắt Đầu : '+ ${tour.startDate}" style="margin-top: 5px">-->
+<!--&lt;!&ndash;                                                <i class="fas fa-map-marker-alt"></i>&ndash;&gt;-->
+<!--                                                Malaysia-->
+<!--                                            </li>-->
+                                        </ul>
+                                    </div>
+                                    <div class="package-content">
+                                        <h3>
+                                            <a th:href="@{'/tour_detail/'+${tour.tourId}}" th:text="${tour.tourName}"></a>
+                                        </h3>
+                                        <div class="review-area">
+<!--                                            <span class="review-text">(25 reviews)</span>-->
+<!--                                            <div class="rating-start" title="Rated 5 out of 5">-->
+                                                <span style="width: 60%"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="btn-wrap" style="position: relative">
+                                            <a th:href="@{'/tour_detail/'+${tour.tourId}}" class="button-text">Đặt ngay<i class="fas fa-arrow-right"></i></a>
+<!--                                            <span th:text="'Số lượng còn nhận: '+${tour.quantity}" style="position: absolute; right:10px"></span>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row" th:if="not ${lstTour.size() > 0}" >
+                        <span style="font-size: 30px;margin-left: 290px;">Không có chuyến đi nào được tìm thấy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <!-- pagination html -->
+            <div class="pagination-wrap">
+                <nav class="pagination-inner">
+                    <ul class="pagination disabled">
+                        <li class="page-item"><span class="page-link"><i class="fas fa-chevron-left"></i></span></li>
+                        <li class="page-item"><a href="#" class="page-link active">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+
+    </main>
+    <footer id="colophon" class="site-footer footer-primary" th:replace="fragments_user::user_footer">
+
+    </footer>
+    <a id="backTotop" href="#" class="to-top-icon">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    <!-- header html end -->
+</div>
+
+<!-- JavaScript -->
+<!--<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>-->
+<script th:src="@{/js/jquery.js}"></script>
+<!--<script src="../../../cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>-->
+<script th:src="@{/vendors/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/vendors/jquery-ui/jquery-ui.min.js}"></script>
+<script th:src="@{/vendors/countdown-date-loop-counter/loopcounter.js}"></script>
+<script th:src="@{/js/jquery.counterup.js}"></script>
+<script th:src="@{/vendors/modal-video/jquery-modal-video.min.js}"></script>
+<script th:src="@{/vendors/masonry/masonry.pkgd.min.js}"></script>
+<!--<script th:src="@{vendors/lightbox.dist/js/lightbox.min.js}"></script>-->
+<script th:src="@{/vendors/slick/slick.min.js}"></script>
+<script th:src="@{/js/jquery.slicknav.js}"></script>
+<!--<script th:src="@{admin_style/js/custom.min.js}"></script>-->
+<!--<script th:src="@{admin_style/js/jquery-3.2.1.min.js}"></script>-->
+<!--<script src="../../../../cdn.jsdelivr.net/npm/popper.js%401.16.0/dist/umd/popper.min.js"></script>-->
+<!--<script th:src="@{admin_style/js/bootstrap.min.js}"></script>-->
+<!--<script th:src="@{admin_style/js/canvasjs.min.js}"></script>-->
+<!--<script th:src="@{admin_style/js/counterup.min.js}"></script>-->
+<!--<script th:src="@{admin_style/js/jquery.slicknav.js}"></script>-->
+<!--<script th:src="@{admin_style/js/dashboard-custom.js}"></script>-->
+<script>
+    function searchTour(){
+        var date = document.getElementById('dateContent').value;
+        var des = document.getElementById('desContent').value;
+        if(date===''&&des===''){
+            alert("Bạn phải nhập 1 trong 2 trường để tìm kiếm!");
+            return false;
+        }else if(date===''&&des!==''){
+            date=null;
+        }else if(date!==''&&des===''){
+            des=null;
+         }
+        window.location.href= '/search/' + des + '/' + date;
+    }
+</script>
+</body>
+</html>

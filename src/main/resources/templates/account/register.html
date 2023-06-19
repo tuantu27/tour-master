@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments_admin :: html_head">
+
+</head>
+<body>
+<div id="container-wrapper">
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard-container">
+        <div th:replace="fragments_admin :: nav_head"></div>
+        <div th:replace="fragments_admin :: menu"></div>
+
+        <div class="db-info-wrap" style="position: relative">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="dashboard-box">
+                        <h4>Thêm tài khoản cho công ty </h4>
+                        <form th:action="@{/account/create}" id="form-login" method="post">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="username">Tài khoản</label>
+                                    <input id="username" type="text" class="validate" name="username" placeholder="Tên đăng nhập . . .">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="password">Mật khẩu</label>
+                                    <input id="password" type="password" name="password" class="validate" placeholder="Mật khẩu . . .">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group" >
+                                    <label>Quyền truy cập</label>
+                                    <select name="role" id="roleChoose">
+                                        <option style="font-size: 15px;" value="Admin">Admin</option>
+                                        <option style="font-size: 15px;" value="SubAdmin">SubAdmin</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group" >
+                                    <label>Quyền sở hữu</label>
+                                    <select name="companyId" id="companyChoose">
+                                        <option style="font-size: 15px;" th:each="company : ${lstCompany}" th:value="${company.companyId}" th:text="${company.companyName}"></option>
+                                    </select>
+
+                                </div>
+                            </div>
+                                <input type="submit" value="Tạo Tài khoản" class="button-primary" >
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/ckeditor/ckeditor.js}"></script>
+<script th:src="@{/ckfinder/ckfinder.js}"></script>
+<script th:src="@{/admin_style/js/jquery-3.2.1.min.js}"></script>
+<script src="../../../../cdn.jsdelivr.net/npm/popper.js%401.16.0/dist/umd/popper.min.js"></script>
+<script th:src="@{/admin_style/js/bootstrap.min.js}"></script>
+<script th:src="@{/admin_style/js/canvasjs.min.js}"></script>
+<script th:src="@{/admin_style/js/chart.js}"></script>
+<script th:src="@{/admin_style/js/counterup.min.js}"></script>
+<script th:src="@{/admin_style/js/jquery.slicknav.js}"></script>
+<script th:src="@{/admin_style/js/dashboard-custom.js}"></script>
+
+
+</body>
+</html>
